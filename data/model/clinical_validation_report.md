@@ -7,28 +7,28 @@
 ## MODEL PERFORMANCE SUMMARY
 
 ### Primary Metrics:
-- Accuracy: 0.8660 (86.60%)
-- Sensitivity (True Positive Rate): 0.6964 (69.64%)
-- Specificity (True Negative Rate): 0.9397 (93.97%)
-- Precision (Positive Predictive Value): 0.8340 (83.40%)
-- F1-Score: 0.7590
-- AUC-ROC: 0.8486
+- Accuracy: 0.8650 (86.50%)
+- Sensitivity (True Positive Rate): 0.6170 (61.70%)
+- Specificity (True Negative Rate): 0.9412 (94.12%)
+- Precision (Positive Predictive Value): 0.7632 (76.32%)
+- F1-Score: 0.6824
+- AUC-ROC: 0.8824
 
 ### Clinical Interpretation:
-- Sensitivity: 69.6% of children with ASD are correctly identified
-- Specificity: 94.0% of children without ASD are correctly identified
-- Overall Accuracy: 86.6% of all assessments are correct
+- Sensitivity: 61.7% of children with ASD are correctly identified
+- Specificity: 94.1% of children without ASD are correctly identified
+- Overall Accuracy: 86.5% of all assessments are correct
 
 ---
 
 ## CROSS-VALIDATION RESULTS (5-Fold)
 
 ### Robustness Analysis:
-- Accuracy: 0.8576 +/- 0.0067
-- Precision: 0.8087 +/- 0.0133
-- Recall: 0.6954 +/- 0.0226
-- F1-Score: 0.7475 +/- 0.0142
-- AUC: 0.8457 +/- 0.0224
+- Accuracy: 0.8460 +/- 0.0244
+- Precision: 0.7142 +/- 0.0560
+- Recall: 0.5765 +/- 0.0654
+- F1-Score: 0.6377 +/- 0.0619
+- AUC: 0.8259 +/- 0.0458
 
 ### Consistency Assessment:
 - Low Variance: Model shows consistent performance across different data splits
@@ -39,9 +39,9 @@
 ## CLINICAL UTILITY ASSESSMENT
 
 ### Screening Performance:
-- Sensitivity: 69.6% - Captures ASD cases
-- Specificity: 94.0% - Minimizes false positives
-- AUC: 0.849 - Discriminative ability
+- Sensitivity: 61.7% - Captures ASD cases
+- Specificity: 94.1% - Minimizes false positives
+- AUC: 0.882 - Discriminative ability
 
 ### Clinical Recommendations:
 - SUITABLE FOR SCREENING: High specificity minimizes unnecessary referrals
@@ -77,4 +77,4 @@ Overall Assessment: This system demonstrates EXCELLENT CLINICAL UTILITY for ASD 
 Recommendation: APPROVED for clinical screening use with appropriate disclaimers and professional oversight.
 
 ---
-Report generated on: 2025-10-07 20:08:10
+Report generated on: 2025-10-07 20:19:05
