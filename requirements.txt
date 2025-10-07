@@ -1,0 +1,9 @@
+chainlit
+langchain
+langchain-community
+langchain-core
+ollama
+scikit-learn
+pandas
+numpy
+joblib
