@@ -60,15 +60,11 @@ pip install -r requirements.txt
 
 ---
 
-## 1) Generate the Dataset
+## 1) Dataset
 
-The dataset models 12 core behavioral domains plus derived features and age group. It introduces realistic correlations and age effects, then calibrates ASD prevalence.
+This repo now uses a curated dataset: `data/model/autism.csv` (706 rows). It includes AQ-style items `A1_Score`..`A10_Score`, demographics, and the target label `Class/ASD` (YES/NO).
 
-```bash
-python data/model/generate_csv.py --n 1000 --seed 42 --asd_ratio 0.20
-```
-
-- Output: `data/behavioral_dataset.csv`
+- Ensure the file exists at `data/model/autism.csv` (already included).
 
 ---
 
@@ -81,14 +77,15 @@ python data/model/train_model.py
 ```
 
 Artifacts saved to `data/model/`:
-- `asd_model.pkl`, `scaler.pkl`, `label_encoder.pkl`, `feature_columns.pkl`
+- `asd_model.pkl`, `scaler.pkl`, `feature_columns.pkl`
 - `feature_importance.csv`
+ - `decision_threshold.pkl` (optimized threshold used at runtime)
 
 ---
 
 ## 3) Clinical Validation Report
 
-Generates a comprehensive report with accuracy, sensitivity, specificity, AUC, and cross-validation results.
+Generates a comprehensive report with accuracy, sensitivity, specificity, AUC, and cross-validation results on `autism.csv` using the same engineered features as training and the tuned decision threshold.
 
 ```bash
 python data/model/clinical_validation.py

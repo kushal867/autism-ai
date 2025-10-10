@@ -12,15 +12,18 @@ import re
 _project_root = Path(__file__).resolve().parent
 _model_path = (_project_root / 'data' / 'model' / 'asd_model.pkl')
 _scaler_path = (_project_root / 'data' / 'model' / 'scaler.pkl')
-_label_encoder_path = (_project_root / 'data' / 'model' / 'label_encoder.pkl')
 _feature_columns_path = (_project_root / 'data' / 'model' / 'feature_columns.pkl')
 _feature_importance_path = (_project_root / 'data' / 'model' / 'feature_importance.csv')
+_threshold_path = (_project_root / 'data' / 'model' / 'decision_threshold.pkl')
 
 model = joblib.load(str(_model_path))
 scaler = joblib.load(str(_scaler_path))
-label_encoder = joblib.load(str(_label_encoder_path))
 feature_columns = joblib.load(str(_feature_columns_path))
 feature_importance = pd.read_csv(str(_feature_importance_path))
+try:
+    decision_threshold = float(joblib.load(str(_threshold_path)))
+except Exception:
+    decision_threshold = 0.5
 
 # Initialize Ollama LLM (Make sure Ollama is running locally)
 llm = Ollama(model="llama3", temperature=0)
@@ -96,14 +99,14 @@ def analyze_behavior(behavior_text: str):
         if hasattr(model, "predict_proba"):
             proba = model.predict_proba(features_scaled)[0]
             prob_asd = float(proba[1]) if len(proba) > 1 else None
-            label = 1 if (prob_asd is not None and prob_asd >= 0.5) else 0
+            label = 1 if (prob_asd is not None and prob_asd >= decision_threshold) else 0
         else:
             label = int(model.predict(features_scaled)[0])
             prob_asd = None
         
         # Generate clinical interpretation
         verdict = "Likely ASD" if label == 1 else "Likely Non-ASD"
-        confidence = "High" if prob_asd and (prob_asd > 0.8 or prob_asd < 0.2) else "Moderate"
+        confidence = "High" if prob_asd and (prob_asd > max(0.8, decision_threshold + 0.25) or prob_asd < min(0.2, decision_threshold - 0.25)) else "Moderate"
         
         # Get feature importance for explanation
         top_features = feature_importance.head(5)
@@ -168,13 +171,13 @@ def analyze_behavior(behavior_text: str):
             if hasattr(model, "predict_proba"):
                 proba = model.predict_proba(features_scaled)[0]
                 prob_asd = float(proba[1]) if len(proba) > 1 else None
-                label = 1 if (prob_asd is not None and prob_asd >= 0.5) else 0
+                label = 1 if (prob_asd is not None and prob_asd >= decision_threshold) else 0
             else:
                 label = int(model.predict(features_scaled)[0])
                 prob_asd = None
             
             verdict = "Likely ASD" if label == 1 else "Likely Non-ASD"
-            confidence = "High" if prob_asd and (prob_asd > 0.8 or prob_asd < 0.2) else "Moderate"
+            confidence = "High" if prob_asd and (prob_asd > max(0.8, decision_threshold + 0.25) or prob_asd < min(0.2, decision_threshold - 0.25)) else "Moderate"
             
             return f"🧠 **Assessment:** {verdict} | 📊 **Confidence:** {confidence} | 🎯 **Probability:** {prob_asd:.2f if prob_asd else 'N/A'} | 📋 **Features:** {numeric}"
         
